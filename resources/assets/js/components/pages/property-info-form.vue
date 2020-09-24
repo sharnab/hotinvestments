@@ -82,16 +82,22 @@
                     <div class="group-title">Property Images</div>
                     <div class="group-container row">
                         <div class="col-md-12">
-                            <div id="upload-container">
-                                <div id="aaiu-upload-container">
-                                    <div class="moxie-shim moxie-shim-html5">
-                                        <label for="input-upload" class="btn flat-btn btn-lg">Select Images</label>
-                                        <input id="fileUpload" type="file" hidden>
-                                        <input id="input-upload" @click="chooseFiles" v-bind:class="{ disabled: !image }" multiple="" accept="image/jpeg,image/gif,image/png">
-                                    </div>
-                                    <p>At least 1 image is required for a valid submission. The featured image will be used to dispaly on property listing page.</p>
-                                </div>
-                            </div>
+                            <div id="my-strictly-unique-vue-upload-multiple-image" style="display: flex; justify-content: center;">
+
+                                <vue-upload-multiple-image
+                                  @upload-success="uploadImageSuccess"
+                                  @before-remove="beforeRemove"
+                                  @edit-image="editImage"
+                                  dragText="Drag Multiple Image"
+                                  browseText="Or Select"
+                                  markIsPrimaryText="Set as default"
+                                  popupText="This image will be displayed as default"
+                                  dropText="Drop your file here ..."
+                                  :maxImage="30"
+                                  primaryText="Default"
+                                  :data-images="images"
+                                  ></vue-upload-multiple-image>
+                              </div>
                         </div>
                     </div>
                 </div>
@@ -169,25 +175,83 @@
 </div>
 </template>
 
+<script src="https://unpkg.com/vue-upload-multiple-image@1.1.6/dist/vue-upload-multiple-image.js"></script>
 <script>
+import Fileuploader from '../FileUploader.vue';
+import VueUploadMultipleImage from 'vue-upload-multiple-image';
+
 export default {
     data() {
         return {
-            post: {}
+            post: {},
+            images: []
         }
     },
+    components: {
+        VueUploadMultipleImage,
+    },
     methods: {
-        addProperty() {
-            let uri = '/seller/store';
-            this.axios.post(uri, this.post).then((response) => {
-                this.$router.push({
-                    name: 'home'
-                });
-            });
+        uploadImageSuccess(formData, index, fileList) {
+            this.addProperty(formData, index, fileList);
+          // console.log('data', formData, index, fileList)
+          // Upload image api
+          // axios.post('http://your-url-upload', formData).then(response => {
+          //   console.log(response)
+          // })
         },
-        chooseFiles() {
-            document.getElementById("fileUpload").click()
+        beforeRemove (index, done, fileList) {
+            console.log('index', index, fileList)
+            var r = confirm("remove image")
+            if (r == true) {
+                done()
+            } else {
+            }
+        },
+        editImage (formData, index, fileList) {
+            console.log('edit data', formData, index, fileList)
+        },
+        addProperty(formData=null, index=null, fileList=null) {
+            console.log(fileList)
+            this.post.fileList = fileList;
+            console.log(this.post.title_name);
+            if(this.post.title_name){
+                let uri = '/seller/store';
+                this.axios.post(uri, this.post).then((response) => {
+                    this.$router.push({
+                        name: 'home'
+                    });
+                });
+            }
         },
     }
 }
 </script>
+
+<style>
+#my-strictly-unique-vue-upload-multiple-image {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+
+h1, h2 {
+  font-weight: normal;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+a {
+  color: #42b983;
+}
+</style>
