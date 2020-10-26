@@ -11,14 +11,19 @@ import VueRouter from 'vue-router';
 import VueAxios from 'vue-axios';
 
 import axios from 'axios';
+
+import VueLazyload from 'vue-lazyload';
+
 // Vue.use(VueAxios, axios);
 
 // import common from './common'
 // Vue.mixin(common)
 
 import App from './App.vue';
+
 Vue.use(VueAxios, axios);
 Vue.use(VueRouter);
+Vue.use(VueLazyload)
 
 import PropertyView from './components/pages/property-view.vue';
 import PropertyForm from './components/pages/property-info-form.vue';
@@ -26,6 +31,7 @@ import PropertyForm from './components/pages/property-info-form.vue';
 import Menubar from './components/menubar.vue';
 import PropertySearch from './components/search-property.vue';
 import DoubleRangeSlider from './components/DoubleRangeSlider.vue';
+import Fileuploader from './components/FileUploader.vue';
 
 const routes = [
   {
@@ -37,7 +43,7 @@ const routes = [
       name: 'property-form',
       path: '/seller/create',
       component: PropertyForm
-  }
+  },
 ];
 
 const router = new VueRouter({ mode: 'history', routes: routes});
