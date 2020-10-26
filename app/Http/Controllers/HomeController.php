@@ -46,4 +46,10 @@ class HomeController extends Controller
         // api for home page goes here
         return view('client.home.index', compact('propertyList'));
     }
+
+    public function login()
+    {
+        return view('sbadmin.login');
+    }
+    
 }

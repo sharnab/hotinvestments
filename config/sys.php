@@ -5,5 +5,5 @@ return [
     'role_cache'=>'prole',
     'app_short_name' =>'Hot Investments',
     'app_full_name' => 'Hot Investments',
-    'app_template' => '',// moltran, metronic
+    'app_template' => 'sbadmin',// moltran, metronic
 ];

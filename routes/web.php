@@ -11,13 +11,19 @@
 |
 */
 
-Route::get('/admin', 'Auth\LoginController@login')->name('login');
-
-Route::prefix('admin')->middleware(['RoleBuzz', 'auth'])->group(function () {
-    Route::get('/admin', 'Admin\DashboardController@index')->name('admin_dashboard');
-    Route::get('/admin/login', 'Auth\LoginController@login')->name('login');
-    Route::get('/admin/logout', 'Auth\LoginController@logout')->name('logout');
+Route::prefix('admin')->group(function () {
+	Route::get('/', 'HomeController@login')->name('login');
+	Route::get('/dashboard', 'Admin\DashboardController@index')->name('dashboard');
+	Route::resource('/property', 'Admin\PropertyController');
+	Route::get('/property/approve/{id}', 'Admin\PropertyController@approve')->name('property.approve');
+	Route::resource('/chats', 'Admin\ChatController');
 });
+
+// Route::prefix('admin')->middleware(['RoleBuzz', 'auth'])->group(function () {
+//     Route::get('/admin', 'Admin\DashboardController@index')->name('admin_dashboard');
+//     Route::get('/admin/login', 'Auth\LoginController@login')->name('login');
+//     Route::get('/admin/logout', 'Auth\LoginController@logout')->name('logout');
+// });
 
 // Route::prefix('seller')->middleware(['RoleBuzz', 'auth'])->group(function () {
     Route::get('/seller', 'Seller\DashboardController@index')->name('seller_dashboard');

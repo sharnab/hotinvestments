@@ -6999,7 +6999,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.slider {\n  display: block;\n  position: relative;\n  height: 36px;\n  width: 18%;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  -o-user-select: none;\n  user-select: none;\n}\n.slider .slider-touch-left,\n.slider .slider-touch-right {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  display: block;\n  position: absolute;\n  height: 36px;\n  width: 36px;\n  padding: 0px;\n  z-index: 2;\n  margin-top: 7px;\n}\n.slider .slider-touch-left span,\n.slider .slider-touch-right span {\n  display: block;\n  width: 70%;\n  height: 70%;\n  background: #f0f0f0;\n  border: 1px solid #a4a4a4;\n  border-radius: 50%;\n}\n.slider .slider-line {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  position: absolute;\n  width: calc(100% - 36px);\n  left: 18px;\n  top: 16px;\n  height: 8px;\n  border-radius: 4px;\n  background: #f0f0f0;\n  z-index: 0;\n  overflow: visible;\n}\n.slider .slider-line span {\n  display: block;\n  height: 100%;\n  width: 18%;\n  background: none repeat scroll 0 0 #c94046;\n}\n", ""]);
+exports.push([module.i, "\n.slider {\r\n  display: block;\r\n  position: relative;\r\n  height: 36px;\r\n  width: 18%;\r\n  -webkit-user-select: none;\r\n  -moz-user-select: none;\r\n  -ms-user-select: none;\r\n  -o-user-select: none;\r\n  user-select: none;\n}\n.slider .slider-touch-left,\r\n.slider .slider-touch-right {\r\n  -webkit-box-sizing: border-box;\r\n  -moz-box-sizing: border-box;\r\n  box-sizing: border-box;\r\n  display: block;\r\n  position: absolute;\r\n  height: 36px;\r\n  width: 36px;\r\n  padding: 0px;\r\n  z-index: 2;\r\n  margin-top: 7px;\n}\n.slider .slider-touch-left span,\r\n.slider .slider-touch-right span {\r\n  display: block;\r\n  width: 70%;\r\n  height: 70%;\r\n  background: #f0f0f0;\r\n  border: 1px solid #a4a4a4;\r\n  border-radius: 50%;\n}\n.slider .slider-line {\r\n  -webkit-box-sizing: border-box;\r\n  -moz-box-sizing: border-box;\r\n  box-sizing: border-box;\r\n  position: absolute;\r\n  width: calc(100% - 36px);\r\n  left: 18px;\r\n  top: 16px;\r\n  height: 8px;\r\n  border-radius: 4px;\r\n  background: #f0f0f0;\r\n  z-index: 0;\r\n  overflow: visible;\n}\n.slider .slider-line span {\r\n  display: block;\r\n  height: 100%;\r\n  width: 18%;\r\n  background: none repeat scroll 0 0 #c94046;\n}\r\n", ""]);
 
 // exports
 
@@ -39257,7 +39257,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("aside", { staticClass: "col-md-2 column" }, [
-      _vm._v("\n         \n    ")
+      _vm._v("\r\n         \r\n    ")
     ]),
     _vm._v(" "),
     _c(
@@ -39720,7 +39720,7 @@ var render = function() {
     ),
     _vm._v(" "),
     _c("aside", { staticClass: "col-md-2 column" }, [
-      _vm._v("\n         \n    ")
+      _vm._v("\r\n         \r\n    ")
     ])
   ])
 }
@@ -56571,7 +56571,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /var/www/hotinvestments.com/resources/assets/js/app.js */"./resources/assets/js/app.js");
+module.exports = __webpack_require__(/*! D:\Xampp\htdocs\hotinvestments\resources\assets\js\app.js */"./resources/assets/js/app.js");
 
 
 /***/ })
