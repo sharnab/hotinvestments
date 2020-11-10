@@ -13,7 +13,7 @@
     <div id="app">
         <menubar></menubar>
         <div class="container">
-            <property-view></property-view>
+            <SellerEntries></SellerEntries>
         </div>
     </div>
 
@@ -36,4 +36,5 @@
         {{-- <propertyloader></propertyloader> --}}
     {{-- </div> --}}
 
-    <script src="{{mix('/js/app.js')}}"></script>
+    {{-- <script src="{{mix('hotinvestments.com/public/js/app.js')}}"></script> --}}
+    <script src="{{asset('/js/app.js')}}"></script>

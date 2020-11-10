@@ -19,12 +19,14 @@
 </style>
 
 <script>
-import Menubar from './components/menubar'
+import Menubar from './components/menubar';
+// import Login from './components/LogIn';
 
     export default{
         name: 'App',
         components: {
             Menubar,
+            // Login
         }
     }
 </script>

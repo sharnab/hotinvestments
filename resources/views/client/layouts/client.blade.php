@@ -111,7 +111,7 @@
 <script type="text/javascript" src="{{url('assets')}}/client/js/price-range.js"></script><!-- Parallax -->
 <script type="text/javascript" src="{{url('assets')}}/client/js/script.js"></script><!-- Script -->
 
-<script src="https://maps.googleapis.com/maps/api/js"></script>
+{{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBrsRbcMCwCrRURPbjGpzcF4EMjHYVVDr4&libraries=places"></script> --}}
 <script src="{{url('assets')}}/client/js/infobox.js"></script><!-- Parallax -->
 <script src="{{url('assets')}}/client/js/data.json"></script>
 <script src="{{url('assets')}}/client/js/markerclusterer.js"></script>

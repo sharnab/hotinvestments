@@ -27,8 +27,8 @@ Route::prefix('admin')->group(function () {
 
 // Route::prefix('seller')->middleware(['RoleBuzz', 'auth'])->group(function () {
     Route::get('/seller', 'Seller\DashboardController@index')->name('seller_dashboard');
-    Route::get('/seller/create', 'Seller\PropertyController@create')->name('property_create');
-    Route::post('/seller/store', 'Seller\PropertyController@store')->name('property_store');
+    Route::get('/property/create', 'Seller\PropertyController@create')->name('property_create');
+    Route::post('/property/store', 'Seller\PropertyController@store')->name('property_store');
     // Route::get('/seller/login', 'Auth\LoginController@login')->name('login');
     // Route::get('/seller/logout', 'Auth\LoginController@logout')->name('logout');
 // });

@@ -203,7 +203,7 @@ export default function (id) {
     minValue = minValue * (max - min) + min
     maxValue = maxValue * (max - min) + min
 
-    console.log(step)
+    // console.log(step)
     if (step !== 0.0) {
       var multi = Math.floor(minValue / step)
       minValue = step * multi

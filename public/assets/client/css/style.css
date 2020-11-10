@@ -1401,11 +1401,11 @@ aside .widget:first-child {
     border: medium none;
     color: #736d6d;
     float: left;
-    font-family: Open Sans;
-    font-size: 13px;
-    font-weight: 600;
-    margin-right: 40px;
-    margin-top: -53px;
+    font-family: 'Montserrat';
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 0px;
+    margin-top: 0px;
     padding: 0;
     width: auto;
 }
@@ -1429,11 +1429,11 @@ aside .widget:first-child {
     border: medium none;
     color: #736d6d;
     float: left;
-    font-family: Open Sans;
-    font-size: 13px;
-    font-weight: 600;
-    margin-left: 40px;
-    margin-top: -53px;
+    font-family: 'Montserrat';
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 0px;
+    margin-top: 0px;
     padding: 0;
     width: auto;
 }
@@ -1454,8 +1454,8 @@ aside .widget:first-child {
 }
 .pagination > li.active > a {
     background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 0px;
+    padding-right: 0px;
     width: auto;
 }
 
@@ -2735,9 +2735,9 @@ blockquote p {
     margin-top: 30px;
     padding: 15px 30px;
 }
-html.no-scroll {
+/*html.no-scroll {
     overflow: hidden;
-}
+}*/
 .registration-sec .field > label {
     color: #747474;
     float: left;
@@ -4284,4 +4284,10 @@ font-size: 16px;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: initial; /* reset Font Awesome's display:inline-block */
+}
+
+@media(max-height: 1080px) {
+    .vm--modal{
+        overflow-y: auto !important;
+    }
 }

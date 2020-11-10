@@ -171,7 +171,8 @@ mark{
 	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 }
 .checkbox-tools:checked + label{
-	background-color: transparent;
+	background-image: linear-gradient(298deg, var(--red), var(--yellow));
+	/*background-color: transparent;*/
 	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 .checkbox-tools:not(:checked) + label:hover{

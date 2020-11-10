@@ -1,5 +1,7 @@
 <link rel="stylesheet" href="{{asset('jqgrid/styles/jqx.base.css')}}" type="text/css" />
 <link rel="stylesheet" href="{{asset('jqgrid/styles/jqx.arctic.css')}}" type="text/css" />
+<link rel="stylesheet" href="https://unpkg.com/vue-range-component@1.0.3/dist/vue-range-slider.min.css">
+
 <script type="text/javascript" src="{{asset('jqgrid/jqxcore.js')}}"></script>
 <script type="text/javascript" src="{{asset('jqgrid/jqxcore.js')}}"></script>
 <script type="text/javascript" src="{{asset('jqgrid/jqxdata.js')}}"></script>
@@ -22,3 +24,4 @@
 {{--<script type="text/javascript" src="generatedata.js"></script>--}}
 
 <script type="text/javascript" src="{{asset('jqgrid/jqxdatatable.js')}}"></script>
+<script src="https://unpkg.com/vue-range-component@1.0.3/dist/vue-range-slider.min.js"></script>

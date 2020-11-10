@@ -15,7 +15,7 @@ span.remove-file {
 }
 
 img {
-    width: 30%;
+    width: 100%;
     margin: auto;
     display: block;
     margin-bottom: 10px;

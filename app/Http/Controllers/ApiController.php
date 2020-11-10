@@ -29,9 +29,8 @@ class ApiController extends Controller
 
     public function getProperties()
     {
-        $data = Bank::get();
-
-        return response()->json($data);
+        $data = Bank::paginate(6);
+        return $data;
     }
 
     /**
