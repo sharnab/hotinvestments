@@ -43,10 +43,9 @@ class PropertyController extends Controller
      */
     public function store(Request $request)
     {
-
         if($token=$this->getToken())
         {
-            $propertyList = $this->addProperty($token);
+            $propertyList = $this->addProperty($token, $request);
             // dd($propertyList['property']);
             // $data['propertyList'] = $propertyList['property'] ;
         }
@@ -175,7 +174,7 @@ class PropertyController extends Controller
             return false;
     }
 
-    private function addProperty($token)
+    private function addProperty($token, $data)
     {
         $url = "http://ec2-52-14-234-54.us-east-2.compute.amazonaws.com/api/v1/property/createProperty";
 
@@ -184,31 +183,45 @@ class PropertyController extends Controller
             'Authorization: Bearer '.$token,
         );
         $location = array(
-            'description' => 'Vegas, USA',
+            'description' => $data->input('location_name'),
             'type' => 'Point',
-            'address' => '301 Biscayne Blvd, Vegas, FL 33132, US',
-            'coordinates' => array(-115.2306538,36.1797013)
+            'address' => $data->input('address'),
+            'coordinates' => array($data->input('lat'),$data->input('lng'))
         );
         $requestData=array(
-            'title'=>'New Apartment',
-            'description'=>'Apartment with good neighbours',
-            'price'=>'14000',
-            'photos' => '',
-            'location'=>$location
+            'title'           =>$data->input('title'),
+            'description'     =>$data->input('description'),
+            'price'           =>$data->input('price'),
+            'photos'          =>'',
+            'lotSize'         =>$data->input('lotSize'),
+            'propertySize'    =>$data->input('propertySize'),
+            'yearBuilt'       =>$data->input('yearBuilt'),
+            'propertyType'    =>$data->input('propertyType'),
+            'facing'          =>$data->input('facing'),
+            'bedrooms'        =>$data->input('bedrooms'),
+            'totalMonthlyRent'=>$data->input('totalMonthlyRent'),
+            'walkability'     =>$data->input('walkability'),
+            'crimeScore'      =>$data->input('crimeScore'),
+            'location'        =>$location
+            // 'location'=>$data->input('location'),
         );
         $requestDataJson=json_encode($requestData);
         $ch = curl_init($url);
+
+        curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch,CURLOPT_HTTPHEADER, $header);
-        curl_setopt($ch,CURLOPT_CUSTOMREQUEST, "GET");
+        curl_setopt($ch,CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch,CURLOPT_POSTFIELDS, $requestDataJson);
         curl_setopt($ch,CURLOPT_FOLLOWLOCATION, 1);
-        // curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
 
         $result = curl_exec($ch);
-        $allProperty = json_decode($result,true);
+        curl_close($ch);
+        print_r($result);dd();
+        // $allProperty = json_decode($result,true);
         echo "<pre>";
-        print_r($allProperty);dd();
+        // print_r($allProperty);dd();
         if(isset($allProperty['status']) && $allProperty['status'])
             return $allProperty['data'];
         else

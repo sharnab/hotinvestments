@@ -17,7 +17,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // phpinfo();exit();
+        phpinfo();exit();
         $token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmNTBjN2E3NTUxYWQ4MGJhMjI2MzYyNSIsImlhdCI6MTU5OTEyOTcxMSwiZXhwIjoxNjA2OTA1NzExfQ.p8iG1eorMOMSCKdIyyBaHFlmJTmvdUa7KHINWPtfNTg";
         $url = "http://ec2-52-14-234-54.us-east-2.compute.amazonaws.com/api/v1/property/getMyListings/5f1955e4fc671c081ef418e7";
         $ch = curl_init($url);
@@ -51,5 +51,5 @@ class HomeController extends Controller
     {
         return view('sbadmin.login');
     }
-    
+
 }

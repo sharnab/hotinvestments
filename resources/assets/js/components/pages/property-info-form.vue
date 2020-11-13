@@ -79,7 +79,7 @@
                         <div class="col-md-4">
                             <div class="form-group s-prop-bathrooms">
                                 <label for="bathrooms">Property Size</label>
-                                <input type="text" id="propertySize" class="form-control" value="" name="bathrooms" v-model="post.bathrooms">
+                                <input type="text" id="propertySize" class="form-control" value="" name="propertySize" v-model="post.propertySize">
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -91,8 +91,8 @@
                         <div class="col-md-4">
                             <div class="form-group s-prop-facing">
                                 <label for="facing">Facing</label>
-                                <div class="dropdown label-select" id="facing" name="facing" v-model="post.facing" style="width: 100%">
-                                    <select class="form-control">
+                                <div class="dropdown label-select" style="width: 100%">
+                                    <select class="form-control" v-model="post.facing">
                                         <option>East</option>
                                         <option>West</option>
                                         <option>North</option>
@@ -134,7 +134,7 @@
                             <div class="form-group s-prop-location">
                                 <label>Location</label>
                                 <div class="dropdown label-select" style="width: 100%">
-                                    <select class="form-control">
+                                    <select class="form-control" v-model="post.location_name">
                                         <option>New Jersey</option>
                                         <option>New York</option>
                                     </select>
@@ -196,10 +196,10 @@
             }
         },
         mounted() {
-            $('.date-own').datepicker({
-             minViewMode: 2,
-             format: 'yyyy'
-           });
+           //  $('.date-own').datepicker({
+           //   minViewMode: 2,
+           //   format: 'yyyy'
+           // });
         },
         components: {
             VueUploadMultipleImage,
@@ -228,15 +228,37 @@
                 // console.log('edit data', formData, index, fileList)
             },
             addProperty(formData = null, index = null, fileList = null) {
-                // console.log(fileList)
                 this.post.fileList = fileList;
                 // console.log(this.post.title_name);
                 if (this.post.title_name) {
-                    let uri = '/seller/store';
-                    this.axios.post(uri, this.post).then((response) => {
-                        this.$router.push({
-                            name: 'home'
-                        });
+                    let uri = '/property/store';
+                    this.axios.post(uri, {
+                        // photos
+                        // walkability
+                        title: this.post.title_name,
+                        lotSize: this.post.area,
+                        description: this.post.desc,
+                        price: this.post.price,
+                        status: this.post.status,
+                        propertyType: this.post.type,
+                        bedrooms: this.post.bedrooms,
+                        bathrooms: this.post.bathrooms,
+                        propertySize: this.post.propertySize,
+                        yearBuilt: this.post.yearBuilt,
+                        facing: this.post.facing,
+                        totalMonthlyRent: this.post.totalMonthlyRent,
+                        crimeScore: 1,
+
+                        location_name: this.post.location_name,
+                        address: this.post.address,
+                        lat: '-115.2306538',
+                        lng: '36.1797013'
+                    }).then((response) => {
+                        if(response.status == 200){
+                            this.$router.push({
+                                // name: 'home'
+                            });
+                        }
                     }).catch(error => {
                         if (error.response.status == 422) {
                             this.validationErrors = error.response.data.errors;
