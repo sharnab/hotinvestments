@@ -179,43 +179,59 @@ class PropertyController extends Controller
         $url = "http://ec2-52-14-234-54.us-east-2.compute.amazonaws.com/api/v1/property/createProperty";
 
         $header=array(
-            'Content-Type:application/json',
+            // 'Content-Type:application/json',
+            'Content-Type:multipart/form-data',
             'Authorization: Bearer '.$token,
         );
-        $location = array(
-            'description' => $data->input('location_name'),
-            'type' => 'Point',
-            'address' => $data->input('address'),
-            'coordinates' => array($data->input('lat'),$data->input('lng'))
-        );
+        // $location = array(
+        //     'description' => $data->input('location_name'),
+        //     'type' => 'Point',
+        //     'address' => $data->input('address'),
+        //     'coordinates' => array($data->input('lat'),$data->input('lng'))
+        // );
+        // $requestData=array(
+        //     'title'           =>$data->input('title'),
+        //     'description'     =>$data->input('description'),
+        //     'price'           =>$data->input('price'),
+        //     'photos'          =>'',
+        //     'lotSize'         =>$data->input('lotSize'),
+        //     'location'        =>$location
+        //     // 'location'=>$data->input('location'),
+        // );
+        // $requestDataJson=json_encode($requestData);
+        
+
         $requestData=array(
-            'title'           =>$data->input('title'),
-            'description'     =>$data->input('description'),
-            'price'           =>$data->input('price'),
+            'title'                     => $data->input('title') ,
+            'description'               => $data->input('description') ,
+            'price'                     => $data->input('price') ,
             'photos'          =>'',
-            'lotSize'         =>$data->input('lotSize'),
-            'propertySize'    =>$data->input('propertySize'),
-            'yearBuilt'       =>$data->input('yearBuilt'),
-            'propertyType'    =>$data->input('propertyType'),
-            'facing'          =>$data->input('facing'),
-            'bedrooms'        =>$data->input('bedrooms'),
-            'totalMonthlyRent'=>$data->input('totalMonthlyRent'),
-            'walkability'     =>$data->input('walkability'),
-            'crimeScore'      =>$data->input('crimeScore'),
-            'location'        =>$location
-            // 'location'=>$data->input('location'),
+            'location[description]'     => 'USA' ,
+            'location[address]'         => 'Las vegas' ,
+            'location[coordinates][0]'  => '-98.5027167' ,
+            'location[coordinates][1]'  => '29.4383793' ,
+            'lotSize'                   => $data->input('lotSize') ,
+            'propertySize'              => $data->input('propertySize'),
+            'yearBuilt'                 => $data->input('yearBuilt'),
+        //     'propertyType'    =>$data->input('propertyType'),
+            'propertyType' => 'Duplex' ,
+            'facing'                    =>$data->input('facing'),
+            'bedrooms'                  =>$data->input('bedrooms'),
+            'totalMonthlyRent'          =>$data->input('totalMonthlyRent'),
+            'walkability'               =>$data->input('walkability'),
+            'crimeScore'                =>$data->input('crimeScore'),
         );
-        $requestDataJson=json_encode($requestData);
+
         $ch = curl_init($url);
 
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch,CURLOPT_HTTPHEADER, $header);
         curl_setopt($ch,CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch,CURLOPT_POSTFIELDS, $requestDataJson);
+        curl_setopt($ch,CURLOPT_POSTFIELDS, $requestData);
         curl_setopt($ch,CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-
+        // dd($ch);
         $result = curl_exec($ch);
         curl_close($ch);
         print_r($result);dd();
