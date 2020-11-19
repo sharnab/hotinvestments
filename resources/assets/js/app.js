@@ -66,6 +66,11 @@ const routes = [
       component: PropertyForm
   },
   {
+      name: 'property-form',
+      path: '/property/edit/:id',
+      component: PropertyForm
+  },
+  {
       name: 'seller-dashboard',
       path: '/seller',
       component: SellerEntries
@@ -77,7 +82,7 @@ const routes = [
   },
   {
       name: 'profile-form',
-      path: '/seller/:id/edit',
+      path: '/seller/edit/:id',
       component: ProfileForm
   },
 ];

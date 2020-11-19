@@ -33,7 +33,7 @@
                                     <div class="filter-wrapper horizontal-search" style="padding-left: 15px; padding-top: 10px; margin: 0px 15px 0px 15px">
                                         <ol class="list-option-filter" style="width: 97%">
                                             <li>
-                                                <span style="color: #c94046">{{ laravelData.total }}</span> Properties Available
+                                                <span style="color: #c94046">{{ laravelData.length }}</span> Properties Available
                                             </li>
                                             <!-- <li>
                                                     <div class="option-filter-box">
@@ -95,38 +95,39 @@
                                     <div class="properties-content" v-if="layout == 'grid'">
                                         <!-- <div class="row"> -->
                                             <!-- @for($i=0;$i<9;$i++) -->
-                                            <div class="col-md-4 col-sm-6  col-xs-12" v-for="post in laravelData.data" v-bind:key="post.id">
+                                            <div class="col-md-4 col-sm-6  col-xs-12" v-for="post in laravelData.propertyList" v-bind:key="post.id">
                                                 <!--v-for="index in 10" :key="index"-->
                                                 <div class="properties-box">
                                                     <div class="properties-thumb">
+                                                        <!-- <img v-bind:src='post.photo[0]' alt=""> -->
                                                         <img src="/uploads/property/1/property1.jpg" alt="">
-                                                        <span class="spn-status"> For Rent </span>
+                                                        <!-- <span class="spn-status"> {{}} </span> -->
                                                         <span class='spn-save' :id="`bookmark_${post.id}`" @click="bookmarProperty($event)" v-if="$route.name=='home'"> <i class="ti ti-bookmark"></i> </span>
                                                         <ul class="property-info">
                                                             <li>
-                                                                <i class="fa fa-retweet"> </i> <span> {{ post.name }} </span>
+                                                                <i class="fa fa-retweet" style="font-size: 14px"> </i> <span style="font-size: 14px"> {{ post.propertyType }} </span>
                                                             </li>
                                                             <li class="li-rl"></li>
                                                             <li>
-                                                                <i class="fa fa-bed"></i><span> {{ post.name }} </span>
+                                                                <i class="fa fa-bed" style="font-size: 14px"></i><span style="font-size: 14px"> {{ post.bedrooms }} </span>
                                                             </li>
                                                             <li class="li-rl"></li>
                                                             <li>
-                                                                <i class="fa fa-building"> </i> <span> {{ post.name }} </span>
+                                                                <i class="fa fa-building" style="font-size: 14px"> </i> <span style="font-size: 14px"> {{ post.propertySize }} Sqft</span>
                                                             </li>
                                                         </ul>
-                                                        <div class="user-preview" style="top: 10px;right: 5px;" v-if="$route.name=='home'">
+                                                        <!-- <div class="user-preview" style="top: 10px;right: 5px;" v-if="$route.name=='home'">
                                                             <a class="col" href="agent.html">
                                                                 <img alt="Camilė" class="avatar avatar-small" src="assets/client/img/4.png" title="Camilė">
                                                             </a>
-                                                        </div>
+                                                        </div> -->
                                                         <a class="proeprty-sh-more" :href="'/property/' + post.id + '/show'"><i class="ti ti-share"> </i></a>
 
                                                     </div>
-                                                    <h3><a href="property.html" title="The Helux villa"> {{ post.name }} </a></h3>
-                                                    <span class="price"> {{ post.name }} </span>
+                                                    <h3><a href="property.html" title="The Helux villa"> {{ post.title }} </a></h3>
+                                                    <span class="price"> ${{ post.price }} </span>
                                                     <h3 class="price" style="width: 100%; margin-top: 0">
-                                                        <image-rating :src="src" :item-size="20" :rating=post.id :read-only="true" :inline="true" :rounded-corners="true" :show-rating="false"></image-rating>
+                                                        <image-rating :src="src" :item-size="20" :rating=post.hotLevel :read-only="true" :inline="true" :rounded-corners="true" :show-rating="false"></image-rating>
                                                     </h3>
                                                 </div><!-- prop Box -->
                                             </div>
@@ -144,34 +145,35 @@
 
                                     <!-- list view starting -->
                                     <div class="properties-content properties-grid" v-if="layout == 'list'" style="margin: 30px 15px 0 15px;">
-                                        <div class="property-grid" v-for="post in laravelData.data" v-bind:key="post.id">
+                                        <div class="property-grid" v-for="post in laravelData.propertyList" v-bind:key="post.id">
                                             <div class="to-thumb col-sm-4 p0">
                                                 <img src="/uploads/property/1/property1.jpg" alt="">
-                                                <span class="spn-status"> For Rent </span>
+                                                <!-- <img v-bind:src='post.photo[0]' alt=""> -->
+                                                <!-- <span class="spn-status"> For Rent </span> -->
                                                 <span class="spn-save" :id="`bookmark_${post.id}`" @click="bookmarProperty($event)" v-if="$route.name=='home'"> <i class="ti ti-bookmark"></i> </span>
-                                                <div class="user-preview" style="top: 5px; right: 5px" v-if="$route.name=='home'">
+                                                <!-- <div class="user-preview" style="top: 5px; right: 5px" v-if="$route.name=='home'">
                                                     <a class="col" href="agent.html">
                                                         <img alt="Camilė" class="avatar avatar-small" src="assets/client/img/4.png" title="Camilė">
                                                     </a>
-                                                </div>
+                                                </div> -->
                                                 <a class="proeprty-sh-more-list" href="property.html"><i class="ti ti-share"> </i></a>
 
                                             </div>
                                             <div class="to-details col-sm-8 p0">
                                                 <div class="property-top-cnt">
-                                                    <h3><a href="property.html" title="">{{ post.name }}</a></h3>
-                                                    <span class="price">{{ post.name }}</span>
-                                                    <p>{{ post.name }}</p>
+                                                    <h3><a href="property.html" title="">{{ post.title }}</a></h3>
+                                                    <span class="price">${{ post.price }}</span>
+                                                    <p>{{ post.yearBuilt }}</p>
                                                 </div>
                                                 <div class="property-bottom-cnt">
 
 
                                                     <ul class="property-info">
-                                                        <li><i class="fa  fa-retweet"> </i> <span>{{ post.name }} sqft </span> </li>
+                                                        <li><i class="fa  fa-retweet"> </i> <span>{{ post.propertyType }}</span> </li>
                                                         <li class="li-rl"></li>
-                                                        <li><i class="fa  fa-bed"></i><span> 5 </span> </li>
+                                                        <li><i class="fa  fa-bed"></i><span> {{ post.bedrooms }} </span> </li>
                                                         <li class="li-rl"></li>
-                                                        <li><i class="fa  fa-building"> </i> <span>3 </span> </li>
+                                                        <li><i class="fa  fa-building"> </i> <span>{{ post.propertySize }}  Sqft</span> </li>
                                                         <li class="li-rl"></li>
 
                                                     </ul>
@@ -240,6 +242,7 @@ export default {
         getResults(page = 1) {
             axios.get('/api/getProperties?page=' + page)
                 .then(response => {
+                    console.log(response.data.propertyList)
                     this.laravelData = response.data;
                 });
         },

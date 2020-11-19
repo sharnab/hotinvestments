@@ -45,6 +45,7 @@ class PropertyController extends Controller
     {
         if($token=$this->getToken())
         {
+            // dd($request->file('file')[0]->getClientOriginalName());
             $propertyList = $this->addProperty($token, $request);
             // dd($propertyList['property']);
             // $data['propertyList'] = $propertyList['property'] ;
@@ -70,7 +71,7 @@ class PropertyController extends Controller
      */
     public function edit($id)
     {
-        return view('client.properties.index',$data);
+        return view('client.properties.index');
     }
 
     /**
@@ -199,27 +200,43 @@ class PropertyController extends Controller
         //     // 'location'=>$data->input('location'),
         // );
         // $requestDataJson=json_encode($requestData);
-        
+        foreach($data->file('file') as $image){
+            // $property_img_path = public_path('api/v1/property/updateProperty/');
+            $property_img_path = public_path('/uploads/property');
+            if(!File::exists($property_img_path)) {
+                File::makeDirectory($property_img_path, $mode = 0777, true, true);
+            }
+            if($data->hasFile('file')){
+                $property_img = time().'.'.$image->getClientOriginalExtension();
+                request()->property_img->move($property_img_path, $property_img);
+                $property_img_path = "uploads/property/" . $property_img;
+                echo 'image uploaded successfully';
+            }
+            else{
+                $property_img_path = '';
+                echo 'something went wrong';exit();
+            }
+        }
 
         $requestData=array(
             'title'                     => $data->input('title') ,
             'description'               => $data->input('description') ,
             'price'                     => $data->input('price') ,
-            'photos'          =>'',
-            'location[description]'     => 'USA' ,
-            'location[address]'         => 'Las vegas' ,
-            'location[coordinates][0]'  => '-98.5027167' ,
-            'location[coordinates][1]'  => '29.4383793' ,
+            'photos'                    => $property_img_path,
+            'location[description]'     => $data->input('description') ,
+            'location[address]'         => $data->input('address') ,
+            'location[coordinates][0]'  => $data->input('lat') ,
+            'location[coordinates][1]'  => $data->input('lng') ,
             'lotSize'                   => $data->input('lotSize') ,
             'propertySize'              => $data->input('propertySize'),
             'yearBuilt'                 => $data->input('yearBuilt'),
         //     'propertyType'    =>$data->input('propertyType'),
-            'propertyType' => 'Duplex' ,
-            'facing'                    =>$data->input('facing'),
-            'bedrooms'                  =>$data->input('bedrooms'),
-            'totalMonthlyRent'          =>$data->input('totalMonthlyRent'),
-            'walkability'               =>$data->input('walkability'),
-            'crimeScore'                =>$data->input('crimeScore'),
+            'propertyType'              => $data->input('propertyType') ,
+            'facing'                    => $data->input('facing'),
+            'bedrooms'                  => $data->input('bedrooms'),
+            'totalMonthlyRent'          => $data->input('totalMonthlyRent'),
+            'walkability'               => $data->input('walkability'),
+            'crimeScore'                => $data->input('crimeScore'),
         );
 
         $ch = curl_init($url);
@@ -269,5 +286,7 @@ class PropertyController extends Controller
             return false;
     }
 
-
+    public function imageStorage(Request $request){
+        $globals['images'] = $request->file->getClientOriginalExtension();
+    }
 }

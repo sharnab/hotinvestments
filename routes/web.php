@@ -29,8 +29,11 @@ Route::prefix('admin')->group(function () {
     Route::get('/seller', 'Seller\DashboardController@index')->name('seller_dashboard');
     Route::get('/property/create', 'Seller\PropertyController@create')->name('property_create');
     Route::post('/property/store', 'Seller\PropertyController@store')->name('property_store');
+	Route::get('/property/edit/{id}', 'Seller\PropertyController@edit')->name('property_edit');
+    Route::post('/property/update', 'Seller\PropertyController@update')->name('update');
     // Route::get('/seller/login', 'Auth\LoginController@login')->name('login');
     // Route::get('/seller/logout', 'Auth\LoginController@logout')->name('logout');
+	// Route::post('/property/imageStorage', 'Seller\PropertyController@imageStorage')->name('image_storage');
 // });
 
 // Route::get('/{any}', function () {
