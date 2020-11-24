@@ -175,7 +175,7 @@ class PropertyController extends Controller
             return false;
     }
 
-    private function addProperty($token, $data)
+    private function addProperty($token, Request $data)
     {
         $url = "http://ec2-52-14-234-54.us-east-2.compute.amazonaws.com/api/v1/property/createProperty";
 
@@ -200,29 +200,11 @@ class PropertyController extends Controller
         //     // 'location'=>$data->input('location'),
         // );
         // $requestDataJson=json_encode($requestData);
-        foreach($data->file('file') as $image){
-            // $property_img_path = public_path('api/v1/property/updateProperty/');
-            $property_img_path = public_path('/uploads/property');
-            if(!File::exists($property_img_path)) {
-                File::makeDirectory($property_img_path, $mode = 0777, true, true);
-            }
-            if($data->hasFile('file')){
-                $property_img = time().'.'.$image->getClientOriginalExtension();
-                request()->property_img->move($property_img_path, $property_img);
-                $property_img_path = "uploads/property/" . $property_img;
-                echo 'image uploaded successfully';
-            }
-            else{
-                $property_img_path = '';
-                echo 'something went wrong';exit();
-            }
-        }
-
+ 
         $requestData=array(
             'title'                     => $data->input('title') ,
             'description'               => $data->input('description') ,
             'price'                     => $data->input('price') ,
-            'photos'                    => $property_img_path,
             'location[description]'     => $data->input('description') ,
             'location[address]'         => $data->input('address') ,
             'location[coordinates][0]'  => $data->input('lat') ,
@@ -230,7 +212,6 @@ class PropertyController extends Controller
             'lotSize'                   => $data->input('lotSize') ,
             'propertySize'              => $data->input('propertySize'),
             'yearBuilt'                 => $data->input('yearBuilt'),
-        //     'propertyType'    =>$data->input('propertyType'),
             'propertyType'              => $data->input('propertyType') ,
             'facing'                    => $data->input('facing'),
             'bedrooms'                  => $data->input('bedrooms'),
@@ -238,6 +219,12 @@ class PropertyController extends Controller
             'walkability'               => $data->input('walkability'),
             'crimeScore'                => $data->input('crimeScore'),
         );
+        $i=0;
+        foreach($data->file('file') as $image){
+            $path = $image->getRealPath();
+            $requestData["photos[$i]"] = "@/".$path;
+            $i++;
+        }
 
         $ch = curl_init($url);
 

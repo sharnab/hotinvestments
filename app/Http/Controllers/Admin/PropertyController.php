@@ -116,7 +116,14 @@ class PropertyController extends Controller
 
     public function approve($id)
     {
-        return 'approve';
+        if($token=$this->getToken())
+        {
+            $propertyList = $this->approveProperty($token,$id);
+            if ($propertyList) 
+                return 'approve';
+            else
+                return redirect()->back();
+        }
     }
 
     private function getToken()
@@ -211,6 +218,40 @@ class PropertyController extends Controller
         print_r($allProperty);dd();
         if(isset($allProperty['status']) && $allProperty['status'])
             return $allProperty['data'];
+        else
+            return false;
+    }
+
+    private function approveProperty($token,$id)
+    {
+        $url = "http://ec2-52-14-234-54.us-east-2.compute.amazonaws.com/api/v1/admin/approveProperty";
+
+        $header=array(
+            'Content-Type:application/json',
+            // 'Content-Type:multipart/form-data',
+            'Authorization: Bearer '.$token,
+        );
+        $requestData=array(
+            'id'           => $id ,
+        );
+        $requestDataJson=json_encode($requestData);
+
+        $ch = curl_init($url);
+
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch,CURLOPT_HTTPHEADER, $header);
+        curl_setopt($ch,CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch,CURLOPT_POSTFIELDS, $requestDataJson);
+        curl_setopt($ch,CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        // dd($ch);
+        $result = curl_exec($ch);
+
+        $allProperty = json_decode($result,true);
+        
+        if(isset($allProperty['status']) && $allProperty['status'])
+            return $allProperty['message'];
         else
             return false;
     }
