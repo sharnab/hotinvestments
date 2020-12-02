@@ -76,30 +76,32 @@
                                         </textarea>
                                     </div>
 
-                                    <div class="col-md-12" style="border: 1px solid grey">
-                                        <label for="desc">Profile Picture</label>
-                                        <div id="my-strictly-unique-vue-upload-multiple-image" style="display: flex; justify-content: center;">
-
-                                            <vue-upload-multiple-image
-                                              @upload-success="uploadImageSuccess"
-                                              @before-remove="beforeRemove"
-                                              @edit-image="editImage"
-                                              dragText="Drag Image"
-                                              browseText="Or Select"
-                                              markIsPrimaryText="Set as default"
-                                              popupText="This image will be displayed as default"
-                                              dropText="Drop your file here ..."
-                                              :maxImage="1"
-                                              primaryText="Default"
-                                              :data-images="image"
-                                              ></vue-upload-multiple-image>
-                                          </div>
+                                    <div class="col-md-12">
+                                        <div class="group-title">Profile Picture</div>
+                                        <div class="group-container row">
+                                            <div class="col-md-12" style="height: 50%">
+                                                <vue-dropzone
+                                                ref="myVueDropzone"
+                                                id="dropzone"
+                                                :options="dropzoneOptions"
+                                                v-on:vdropzone-sending="sendingEvent">
+                                                <div class="dropzone-custom-content">
+                                                    <h3 class="dropzone-custom-title">Drag and drop to upload content!</h3>
+                                                    <div class="subtitle">...or click to select a file from your computer</div>
+                                                </div>
+                                                </vue-dropzone>
+                                            </div>
+                                        </div>
                                     </div>
-
                                 </div>
-
                             </div>
-
+                            <div class="submit row" style="clear: both; margin-top: 25px;">
+                                <div class="col-md-12">
+                                    <button v-on:click="processQueue" class="btn btn-lg flat-btn" id="property_submit">Add Property</button>
+                                    <!-- <input type="submit" class="btn btn-lg flat-btn" id="property_submit" value="Add Property"> -->
+                                    <!-- <label style="margin-top: 15px; margin-left: 10px;"> Your submission will be reviewed by Administrator before it can be published</label> -->
+                                </div>
+                            </div>
                         </form>
                         <!-- <form id="password_form" name="password_form" class="form profile-form">
                                 <div class="control-group">
@@ -140,35 +142,74 @@
 </template>
 
 <script>
-import VueUploadMultipleImage from 'vue-upload-multiple-image';
+import Fileuploader from '../FileUploader.vue';
+import vue2Dropzone from "vue2-dropzone";
+import "vue2-dropzone/dist/vue2Dropzone.min.css";
 
 export default {
     data() {
         return {
-            post: {},
-            image: [],
+            totalsize: 0,
+            dropzoneOptions: {
+                url: '/api/profile/update',
+                addRemoveLinks: true,
+                thumbnailWidth: 150,
+                maxFiles: 1,
+                maxNumberOfFiles: 1,
+                parallelUploads: 1,
+                autoProcessQueue: false,
+                acceptedFiles: 'image/jpeg,image/png,image/gif',
+                headers: {
+                    "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
+                },
+                maxfilesexceeded: function (files) {
+                    this.removeAllFiles();
+                    this.addFile(files);
+                },
+            },
+            fileName: '',
         }
     },
     mounted() {
 
     },
     components: {
-        VueUploadMultipleImage,
+        vueDropzone: vue2Dropzone,
     },
     methods: {
-        uploadImageSuccess(formData, index, fileList) {
-            this.addProperty(formData, index, fileList);
+        processQueue(){
+            this.$refs.myVueDropzone.processQueue();
         },
-        beforeRemove (index, done, fileList) {
-            var r = confirm("remove image")
-            if (r == true) {
-                done()
-            } else {
-            }
-        },
-        editImage (formData, index, fileList) {
+
+        sendingEvent (file, xhr, formData){
+            this.totalsize = this.totalsize + file.size
+            if (this.totalzize > someLimit) xhr.abort()
+
+            formData.append('title_name', this.title);
+            formData.append('email', this.email);
+            formData.append('phone', this.phone);
+            formData.append('mobile', this.mobile);
+            formData.append('description', this.desc);
+        }
+        // uploadImageSuccess(formData, index, fileList) {
+        //     this.addProperty(formData, index, fileList);
+        // },
+        // beforeRemove (index, done, fileList) {
+        //     var r = confirm("remove image")
+        //     if (r == true) {
+        //         done()
+        //     } else {
+        //     }
+        // },
+        // editImage (formData, index, fileList) {
             // console.log('edit data', formData, index, fileList)
-        },
+        // },
     }
 }
 </script>
+
+<style>
+.vue-dropzone>.dz-preview .dz-image{
+    height: 10%;
+}
+</style>

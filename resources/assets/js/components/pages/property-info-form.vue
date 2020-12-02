@@ -11,14 +11,14 @@
 
         <div class="submit-content">
             <!-- <form id="new_post" name="new_post" @submit.prevent="addProperty" class="property-form" role="form"> -->
-            <form id="new_post" name="new_post" class="property-form" @submit.prevent="processQueue" role="form">
+            <form id="new_post" name="new_post" class="property-form" @click="processQueue" role="form">
                 <div class="control-group">
                     <div class="group-title">Property Description &amp; Price</div>
                     <div class="group-container row">
                         <div class="col-md-8">
                             <div class="form-group s-prop-title">
                                 <label for="title">Title&nbsp;&#42;</label>
-                                <input type="text" id="title" class="form-control" value="" name="title" v-model="title_name" required="">
+                                <input type="text" id="title" class="form-control" value="" name="title_name" v-model="title_name" required="">
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -43,12 +43,12 @@
                             <div class="form-group s-prop-status">
                                 <label>Walkability</label>
                                 <div class="dropdown label-select" style="width: 100%">
-                                    <select class="form-control" v-model="walkability">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
+                                    <select class="form-control" name="walkability" v-model="walkability">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
                                     </select>
                                 </div>
                             </div>
@@ -57,10 +57,10 @@
                             <div class="form-group s-prop-type">
                                 <label>Type</label>
                                 <div class="dropdown label-select" style="width: 100%">
-                                    <select class="form-control" v-model="type">
-                                        <option>Duplex</option>
-                                        <option>Triplex</option>
-                                        <option>Fourplex</option>
+                                    <select class="form-control" v-model="type" name="type">
+                                        <option value="Duplex">Duplex</option>
+                                        <option value="Triplex">Triplex</option>
+                                        <option value="Fourplex">Fourplex</option>
                                     </select>
                                 </div>
                             </div>
@@ -93,25 +93,25 @@
                             <div class="form-group s-prop-facing">
                                 <label for="facing">Facing</label>
                                 <div class="dropdown label-select" style="width: 100%">
-                                    <select class="form-control" v-model="facing">
-                                        <option>East</option>
-                                        <option>West</option>
-                                        <option>North</option>
-                                        <option>South</option>
+                                    <select class="form-control" name="facing" v-model="facing">
+                                        <option value="East">East</option>
+                                        <option value="West">West</option>
+                                        <option value="North">North</option>
+                                        <option value="South">South</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group s-prop-facing">
-                                <label for="facing">Crime Score</label>
+                            <div class="form-group s-prop-crimeScore">
+                                <label for="crimeScore">Crime Score</label>
                                 <div class="dropdown label-select" style="width: 100%">
                                     <select class="form-control" v-model="crimeScore">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
                                     </select>
                                 </div>
                             </div>
@@ -135,6 +135,7 @@
                             id="dropzone"
                             :options="dropzoneOptions"
                             :useCustomSlot="true"
+                            vdropzone-success-multiple="uploadSuccess"
                             v-on:vdropzone-processing-multiple="true"
                             v-on:vdropzone-removed-file="fileRemoved"
                             v-on:vdropzone-sending-multiple="sendingEvent">
@@ -191,7 +192,7 @@
                 </div>
                 <div class="submit row" style="clear: both; margin-top: 25px;">
                     <div class="col-md-12">
-                        <button v-on:click="processQueue" class="btn btn-lg flat-btn" id="property_submit">Add Property</button>
+                        <button type="submit" class="btn btn-lg flat-btn" id="property_submit">Add Property</button>
                         <!-- <input type="submit" class="btn btn-lg flat-btn" id="property_submit" value="Add Property"> -->
                         <label style="margin-top: 15px; margin-left: 10px;"> Your submission will be reviewed by Administrator before it can be published</label>
                     </div>
@@ -234,8 +235,8 @@
                 location_name: '',
                 walkability: '',
                 crimeScore: '',
-                latitude: '',
-                longitude: '',
+                latitude: '-74.005279',
+                longitude: '40.714398',
                 // post: {},
                 dropzoneOptions: {
                     url: '/api/property/store',
@@ -246,6 +247,8 @@
                     autoProcessQueue: false,
                     uploadMultiple: true,
                     manuallyAddFile: true,
+                    autoDiscover: false,
+                    acceptedFiles: 'image/jpeg,image/png,image/gif',
                     headers: {
                         "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
                     }
@@ -263,10 +266,11 @@
             vueDropzone: vue2Dropzone,
         },
         methods: {
-            locationUpdated(latlng) {
-                this.latitude = latlng.lat;
-                this.longitude = latlng.lng;
-            },
+
+          locationUpdated(latlng) {
+              this.latitude = latlng.lat;
+              this.longitude = latlng.lng;
+          },
 
             // uploadSuccess(file, response) {
             //     console.log('File Successfully Uploaded with file name: ' + response.file);
@@ -277,12 +281,30 @@
             // },
             fileRemoved() {},
 
-            processQueue(){
-                this.$refs.myVueDropzone.processQueue();
+            processQueue(e){
+                if (this.name && this.age && this.address && this.desc) {
+                    this.$refs.myVueDropzone.processQueue();
+                }
+
+                // this.errors = [];
+                //
+                // if (!this.title_name) {
+                //     this.errors.push('Name required.');
+                // }
+                // if (!this.price) {
+                //     this.errors.push('Price required.');
+                // }
+                // if (!this.address) {
+                //     this.errors.push('Address required.');
+                // }
+                // if (!this.desc) {
+                //     this.errors.push('Description required.');
+                // }
+                // e.preventDefault();
             },
 
+
             sendingEvent (file, xhr, formData){
-                console.log(formData);
                 formData.append('title_name', this.title_name);
                 formData.append('area', this.area);
                 formData.append('desc', this.desc);
@@ -293,6 +315,7 @@
                 formData.append('bedrooms', this.bedrooms);
                 formData.append('bathrooms', this.bathrooms);
                 formData.append('propertySize', this.propertySize);
+                formData.append('propertyType', this.type);
                 formData.append('yearBuilt', this.yearBuilt);
                 formData.append('facing', this.facing);
                 formData.append('totalMonthlyRent', this.totalMonthlyRent);
@@ -300,7 +323,16 @@
                 formData.append('location_name', this.location_name);
                 formData.append('latitude', this.latitude);
                 formData.append('longitude', this.longitude);
-            }
+            },
+
+            uploadSuccess(file, response) {
+                if(response){
+                    alert('Data inserted Successfully');
+                }
+            },
+            uploadError(file, message) {
+                console.log('An Error Occurred');
+            },
 
             // addProperty() {
             //     this.$refs.myVueDropzone.processQueue();

@@ -99,8 +99,9 @@
                                                 <!--v-for="index in 10" :key="index"-->
                                                 <div class="properties-box">
                                                     <div class="properties-thumb">
-                                                        <!-- <img v-bind:src='post.photo[0]' alt=""> -->
-                                                        <img src="/uploads/property/1/property1.jpg" alt="">
+                                                        <img v-if='post.photos == ""' src="/uploads/property/1/property1.jpg" alt="">
+                                                        <img v-else-if='post.photos.length' :src='`http://ec2-52-14-234-54.us-east-2.compute.amazonaws.com/${post.photos[0]}`' alt="">
+                                                        <!-- <img v-bind:src="property_img" alt=""> -->
                                                         <!-- <span class="spn-status"> {{}} </span> -->
                                                         <span class='spn-save' :id="`bookmark_${post.id}`" @click="bookmarProperty($event)" v-if="$route.name=='home'"> <i class="ti ti-bookmark"></i> </span>
                                                         <ul class="property-info">
@@ -121,7 +122,11 @@
                                                                 <img alt="Camilė" class="avatar avatar-small" src="assets/client/img/4.png" title="Camilė">
                                                             </a>
                                                         </div> -->
-                                                        <a class="proeprty-sh-more" :href="'/property/' + post.id + '/show'"><i class="ti ti-share"> </i></a>
+                                                        <!-- <a class="proeprty-sh-more" :href="'/property/' + post.id + '/show'"><i class="ti ti-share"> </i></a> -->
+                                                        <a :href="'/property/show/' + post.id" class="proeprty-sh-more btn btn-primary btn-sm" style="width:50%;margin-left:25%;font-size:1em;margin-top:5%;margin-bottom:5%"><i class="ti ti-eye"></i> View</a>
+                                                        <a :href="'/property/edit/' + post.id" class="proeprty-sh-more btn btn-info btn-sm" v-if="post.seller.id=='5f50c7a7551ad80ba2263625'" style="width:50%;margin-left:25%;font-size:1em;margin-top:-10%;margin-bottom:5%"><i class="ti ti-pencil-alt"></i> Edit</a>
+                                                        <a :href="'/property/delete/' + post.id" class="proeprty-sh-more btn btn-danger btn-sm" v-if="post.seller.id=='5f50c7a7551ad80ba2263625'" style="width:50%;margin-left:25%;font-size:1em;margin-top:20%;margin-bottom:5%"><i class="ti ti-trash"></i> Delete</a>
+                                                        <!-- <span class='spn-save' :id="`bookmark_${post.id}`" > <i class="ti ti-bookmark"></i> </span> -->
 
                                                     </div>
                                                     <h3><a href="property.html" title="The Helux villa"> {{ post.title }} </a></h3>
@@ -147,7 +152,8 @@
                                     <div class="properties-content properties-grid" v-if="layout == 'list'" style="margin: 30px 15px 0 15px;">
                                         <div class="property-grid" v-for="post in laravelData.propertyList" v-bind:key="post.id">
                                             <div class="to-thumb col-sm-4 p0">
-                                                <img src="/uploads/property/1/property1.jpg" alt="">
+                                                <img v-if='post.photos == ""' src="/uploads/property/1/property1.jpg" alt="">
+                                                <img v-else-if='post.photos.length' :src='`http://ec2-52-14-234-54.us-east-2.compute.amazonaws.com/${post.photos[0]}`' alt="">
                                                 <!-- <img v-bind:src='post.photo[0]' alt=""> -->
                                                 <!-- <span class="spn-status"> For Rent </span> -->
                                                 <span class="spn-save" :id="`bookmark_${post.id}`" @click="bookmarProperty($event)" v-if="$route.name=='home'"> <i class="ti ti-bookmark"></i> </span>
@@ -221,6 +227,7 @@ export default {
             src: '../../assets/client/img/flame.jpg',
             rating: 3,
             enlister_img: '../../assets/client/img/demo/man1.jpg',
+            property_img: '',
             layout: 'grid',
             property: 0,
 
@@ -244,6 +251,7 @@ export default {
                 .then(response => {
                     console.log(response.data.propertyList)
                     this.laravelData = response.data;
+                    // this.property_img = response.data.propertyList.photos;
                 });
         },
         changeSetting: function(style) {

@@ -114,7 +114,7 @@ export default {
             bathroom_no: 'No of Bathroom',
             bathrooms : ['No of Bathroom', '1', '2', '3', '4', '5+'],
             property_type: 'All Property Types',
-            property_types: ['All Property Types', 'Apartment', 'Build Floors', 'Farm House', 'House & Villas'],
+            property_types: ['All Property Types', 'Duplex', 'Triplex', 'Fourplex'],
             enlister: 'Listed By', // Default value is set here
             enlisters: ['Listed By', 'Builder', 'Dealer', 'Owner'],
             furnishing_statuses: ['Furnishing Status','Furnished','Semi Furnished','Unfurnished'],

@@ -20,3 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/getLocations', 'ApiController@getLocations');
 Route::get('/getProperties', 'ApiController@getProperties');
 Route::post('/property/store', 'Seller\PropertyController@store')->name('property_store');
+
+Route::get('/getSingleProperty/{id}', 'ApiController@getSingleProperty');

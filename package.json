@@ -25,7 +25,9 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "laravel-echo": "^1.9.0",
         "laravel-vue-pagination": "^2.3.1",
+        "pusher-js": "^7.0.1",
         "vue-axios": "^2.1.5",
         "vue-flux": "^6.3.0",
         "vue-js-modal": "^2.0.0-rc.6",

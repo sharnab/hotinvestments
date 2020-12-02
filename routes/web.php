@@ -30,7 +30,16 @@ Route::prefix('admin')->group(function () {
     Route::get('/property/create', 'Seller\PropertyController@create')->name('property_create');
     Route::post('/property/store', 'Seller\PropertyController@store')->name('property_store');
 	Route::get('/property/edit/{id}', 'Seller\PropertyController@edit')->name('property_edit');
+	Route::get('/property/show/{id}', 'Seller\PropertyController@show')->name('property_show');
     Route::post('/property/update', 'Seller\PropertyController@update')->name('update');
+
+	Route::get('/property/getSingleProperty/{id}', 'Seller\PropertyController@getSingleProperty');
+
+	Route::get('/profile/edit/{id}', 'Seller\ProfileController@edit')->name('profile_edit');
+
+	Route::get('/chat', 'Seller\ChatController@index')->name('chat');
+	Route::get('/message', 'Seller\MessageController@index')->name('message');
+	Route::post('/message', 'Seller\MessageController@store')->name('message.store');
     // Route::get('/seller/login', 'Auth\LoginController@login')->name('login');
     // Route::get('/seller/logout', 'Auth\LoginController@logout')->name('logout');
 	// Route::post('/property/imageStorage', 'Seller\PropertyController@imageStorage')->name('image_storage');

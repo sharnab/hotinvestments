@@ -488,4 +488,38 @@ private function getAllProperty($token)
         SMSLog::insert($data);
     }
 
+    public function getSignleProperty($id)
+    {
+        if($token=$this->getToken())
+        {
+            $propertyData = $this->getPropertyByPropertyId($token, $id);
+        }
+        return $propertyData;
+    }
+
+    private function getPropertyByPropertyId($token, $propertyID)
+    {
+        $url = "http://ec2-52-14-234-54.us-east-2.compute.amazonaws.com/api/v1/property/getSingle/$propertyID";
+
+        $header=array(
+            'Content-Type:application/json',
+            'Authorization: Bearer '.$token,
+        );
+        $ch = curl_init($url);
+        curl_setopt($ch,CURLOPT_HTTPHEADER, $header);
+        curl_setopt($ch,CURLOPT_CUSTOMREQUEST, "GET");
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch,CURLOPT_FOLLOWLOCATION, 1);
+        // curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+
+        $result = curl_exec($ch);
+        $propertyData = json_decode($result,true);
+        // echo "<pre>";
+        // print_r($allProperty);dd();
+        if(isset($propertyData['status']) && $propertyData['status'])
+            return $propertyData['data'];
+        else
+            return false;
+    }
+
 }
